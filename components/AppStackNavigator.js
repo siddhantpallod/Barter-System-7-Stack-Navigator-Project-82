@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from '../screens/HomeSreen';
-import RecieverDetailScreen from '../screens/RecieverDetailsScreen';
+import RecieverDetailsScreen from '../screens/RecieverDetailsScreen';
 
 export const AppStackNavigator = createStackNavigator({
     Home : {
@@ -12,7 +12,7 @@ export const AppStackNavigator = createStackNavigator({
     },
 
     RecieverDetails : {
-        screen : RecieverDetailScreen,
+        screen : RecieverDetailsScreen,
         navigationOptions : {
             headerShown : false
         }
