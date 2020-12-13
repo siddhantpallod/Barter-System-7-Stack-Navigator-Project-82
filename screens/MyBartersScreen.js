@@ -74,7 +74,7 @@ export default class MyBartersScreen extends React.Component{
              )
              :(
                <FlatList
-                 keyExtractor={this.keyExtractor}
+                 keyExtractor={this.keyExtracter}
                  data={this.state.allBarters}
                  renderItem={this.renderItem}
                />

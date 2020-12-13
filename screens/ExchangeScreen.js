@@ -15,7 +15,7 @@ export default class ExchangeScreen extends React.Component{
         }
     }
 
-    createUniqueId = () => {
+    createUniqueId(){
         return Math.random().toString(36).substring(7);
     }
 
