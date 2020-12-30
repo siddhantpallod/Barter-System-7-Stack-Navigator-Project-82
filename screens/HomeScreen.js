@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList} from 'react-native';
+import { Text, View, TouchableOpacity, FlatList} from 'react-native';
 import {ListItem} from 'react-native-elements'
 import db from '../config';
 import MyHeader from '../components/MyHeader';
@@ -18,7 +18,11 @@ export default class HomeScreen extends React.Component{
     getAllRequests = () => {
         this.requestRef = db.collection('exchangeRequests')
         .onSnapshot((snapshot) => {
-            var allRequests = snapshot.docs.map(document => document.data())
+            var allRequests = []
+            snapshot.forEach(doc => {
+                allRequests.push(doc.data())
+            })
+
             this.setState({
                 allRequests : allRequests
             })
@@ -46,8 +50,8 @@ export default class HomeScreen extends React.Component{
                         borderRadius : 15,
                     }}
                     onPress = {()=> {
-                    this.props.navigation.navigate('RecieverDetails',{'details': item})
-                }}>
+                    this.props.navigation.navigate('RecieverDetails',{'details': item})}}>
+                        
                         <Text style = {{fontSize : 20,textAlign : 'center'}}>Exchange</Text>
                     </TouchableOpacity>
                 }

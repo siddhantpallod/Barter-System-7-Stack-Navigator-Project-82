@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,Text,TextInput,TouchableOpacity,Alert} from 'react-native';
+import {View,Text,TextInput,TouchableOpacity,Alert,ImageBackground} from 'react-native';
 import firebase from 'firebase';
 import db from '../config';
 import MyHeader from '../components/MyHeader';
@@ -46,12 +46,15 @@ export default class ExchangeScreen extends React.Component{
 
     render(){
         return(
-            <View style = {{backgroundColor : 'yellow'}}>
+            <View //style = {{backgroundColor : 'yellow'}}
+            >
                 <View>
                   <MyHeader
                   title = "Exchange"
                   />  
                 </View>
+                <ImageBackground source = {require('../assets/gradient.jpeg')} style = {{width : '100%', alignSelf : 'center',height : '100%'}}>
+
                 <View>
                     <TextInput
                     style = {{
@@ -59,9 +62,11 @@ export default class ExchangeScreen extends React.Component{
                         alignSelf : 'center',
                         width : 300,
                         height : 30,
-                        marginTop : 50
+                        marginTop : 50,
+                        fontSize : 17
                     }}
                     placeholder = 'Item Name'
+                    placeholderTextColor = 'orange'
                     onChangeText = {(text)=>{
                         this.setState({
                             itemName : text
@@ -75,9 +80,11 @@ export default class ExchangeScreen extends React.Component{
                         alignSelf : 'center',
                         width : 300,
                         height : 100,
-                        marginTop : 30
+                        marginTop : 30,
+                        fontSize : 17
                     }}
                     placeholder = 'Description'
+                    placeholderTextColor = 'orange'
                     multiline = {true}
                     onChangeText = {(text)=> {
                         this.setState({
@@ -107,6 +114,7 @@ export default class ExchangeScreen extends React.Component{
                         }}> Add Item </Text>
                     </TouchableOpacity>
                 </View>
+                </ImageBackground>
             </View>
         )
     }

@@ -10,6 +10,7 @@ export default class RecieverDetailsScreen extends React.Component{
         super(props);
         this.state = {
             email : firebase.auth().currentUser.email,
+            userName : '',
             recieverId : this.props.navigation.getParam('details')['userEmail'],
             exchangeId : this.props.navigation.getParam('details')['exchangeId'],
             itemName : this.props.navigation.getParam('details')['itemName'],
@@ -21,8 +22,8 @@ export default class RecieverDetailsScreen extends React.Component{
         }
     }
 
-    getRecieverDetails = () => {
-        db.collection('users').where('userEmail','==', this.state.recieverId).get()
+    getRecieverDetails()  {
+        db.collection('users').where('userEmail','==', this.state.email).get()
         .then(snapshot => {
             snapshot.forEach(doc => {
                 this.setState({
@@ -43,6 +44,17 @@ export default class RecieverDetailsScreen extends React.Component{
         })
     }
 
+    getUserDetails=(userEmail)=>{
+        db.collection("users").where('userEmail','==', userEmail).get()
+        .then((snapshot)=>{
+          snapshot.forEach((doc) => {
+            this.setState({
+              userName  :doc.data().first_name + " " + doc.data().last_name
+            })
+          })
+        })
+      }
+
     updateBarterStatus = () => {
         db.collection('allBarters').add({
             itemName : this.state.itemName,
@@ -55,7 +67,21 @@ export default class RecieverDetailsScreen extends React.Component{
 
     componentDidMount(){
         this.getRecieverDetails()
+        this.getUserDetails(this.state.email)
     }
+
+    addNotification=()=>{
+        var message = this.state.recieverName + " has shown interest in exchanging the item"
+        db.collection("allNotifications").add({
+          "targetedUserId"    : this.state.receiverId,
+          "donorId"            : this.state.userName,
+          "exchangeId"          : this.state.exchangeId,
+          "itemName"           : this.state.itemName,
+          "date"                : firebase.firestore.FieldValue.serverTimestamp(),
+          "notificationStatus" : "unread",
+          "message"             : message
+        })
+      }
 
     render(){
         return(
@@ -72,7 +98,7 @@ export default class RecieverDetailsScreen extends React.Component{
                             />
                         }
 
-                        centerComponent = {{text: 'Exchange Items', style = {color : 'red',fontSize : 20}}}
+                        centerComponent = {{text: 'Exchange Items', style : {color : 'red',fontSize : 20}}}
                         backgroundColor = 'cyan'
                    
                    />
@@ -110,10 +136,20 @@ export default class RecieverDetailsScreen extends React.Component{
             {this.state.recieverId !== this.state.email
             ? (
                 <TouchableOpacity
+                  style = {{
+                    width : 100,
+                    height : 30,
+                    backgroundColor : 'cyan',
+                    borderWidth : 2,
+                    alignSelf : 'center',
+                    borderRadius : 15,
+                    marginTop : 20,
+                }}
                   onPress={()=>{
                     this.updateBarterStatus()
                     this.props.navigation.navigate('MyBarters')
                   }}>
+                      <Text style = {{textAlign : 'center', fontSize : 20}}> Exchange </Text>
                   </TouchableOpacity>
             )
             : null
