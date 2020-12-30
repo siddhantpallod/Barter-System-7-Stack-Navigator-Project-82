@@ -21,16 +21,16 @@ export default class LoginScreen extends React.Component{
     }
 
     userLogin = (email,password) => {
-        //firebase.auth().signInWithEmailAndPassword(email,password)
-        //.then(() => {
+        firebase.auth().signInWithEmailAndPassword(email,password)
+        .then(() => {
             this.props.navigation.navigate('Home')
-          //  return Alert.alert("Successfull Login")
-      //  })
-       // .catch((error) => {
-          //  var errorCode = error.code;
-          //  var errorMessage = error.message;
-          //  return Alert.alert(errorMessage)
-       // })   
+            return Alert.alert("Successfull Login")
+        })
+        .catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            return Alert.alert(errorMessage)
+        })   
     }
 
     userSignUp = (email,password,confirmPassword) => {
